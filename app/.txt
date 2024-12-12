@@ -1,0 +1,10 @@
+<p class="restaurant-description">Experience delicious and fresh meals delivered right to you!</p>
+
+
+
+
+<?php if (isset($restaurant['photo']) && !empty($restaurant['photo'])): ?>
+                            <img src="/public/Restaurant_photo/<?php echo $restaurant['photo'];?>" alt="<?= $restaurant['restaurant_name'] ?> Image" class="img-fluid">
+                        <?php else: ?>
+                            <img src="/public/Restaurant_photo/default.jpg" alt="Default Restaurant Image" class="img-fluid">
+                        <?php endif; ?>
