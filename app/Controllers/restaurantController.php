@@ -45,13 +45,19 @@ class RestaurantController extends Controller
             
             $session = session();
             $jwt = createJWT(['id' => $user['id'], 'email' => $user['email'], 'role' => $role]);
+            $role_id = isset($user['role_id']) ? $user['role_id'] : null;
             session()->set([
                 'user_id' => $user['id'],
                 'role' => $role,
+                'role_id' => $role_id,
                 'res' => $role === 'Restaurant' ? $user['restaurant_name'] : null,
                 'token'=> $jwt,
                 'email'=>$user['email']
             ]);
+
+            if ($role_id == 1) {
+                return redirect()->to('Admin/dashboard');
+            }
             
             return redirect()->to($role === 'Restaurant' ? '/menu' : '/CustomerUsers/dashboard');
         } else {

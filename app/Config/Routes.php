@@ -11,6 +11,9 @@ $routes->get('logout', 'restaurantController::logout');
 $routes->get('register', 'restaurantController::register');
 $routes->post('register_restaurant', 'restaurantController::registerUser');
 // $routes->post('RestaurantUsers/register', 'restaurantController::registerUser');
+$routes->get('Admin/dashboard', 'AdminController::dashboard');
+$routes->post('Admin/deleteRestaurant/(:num)', 'AdminController::deleteRestaurant/$1');
+$routes->get('logout', 'AdminController::logout');
 
 
 $routes->get('/customer/register', 'restaurantController::customerRegister');
@@ -35,8 +38,10 @@ $routes->get('/menu/profile', 'menuController::profile');
 $routes->post('/menu/updateProfile', 'menuController::updateProfile');
 //
 $routes->get('/menu/x/(:num)', 'menuController::viewmenu/$1');
-$routes->post('restaurant/toggle_status', 'menuController::toggle_status');
+// $routes->post('restaurant/toggle_status', 'menuController::toggle_status');
 
+$routes->get('CustomerUsers/customerProfile', 'CustomerController::customerProfile');
+$routes->post('/dashboard/CustomerUpdateprofile', 'CustomerController::CustomerUpdateprofile');
 
 $routes->get('customer/viewMenu/(:num)', 'CustomerController::viewMenu/$1');
 $routes->get('customer/viewMenu/(:segment)', 'CustomerController::viewMenu/$1');
@@ -63,3 +68,6 @@ $routes->get('CustomerUsers/Payment', 'menuController::showCart');
 $routes->post('menu/x/api/add-item', 'menuController::addToCart');
 $routes->get('api/delete-item/(:num)', 'menuController::deleteFromCart/$1');
 $routes->post('CustomerUsers/api/confirmPayment-api', 'menuController::confimPaymentAPI');
+
+//CHANGE RESTAURENT STATUS
+$routes->get('/changeStatus', 'menuController::changeRestaurantStatus');

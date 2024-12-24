@@ -1,8 +1,9 @@
 <?php
 namespace App\Controllers; 
 use App\Models\RestaurantModel;
-use App\Models\FavoriteModel; // Import the FavoriteModel
+use App\Models\FavoriteModel;
 use CodeIgniter\Controller;
+use App\Models\CustomerModel;
 
 class CustomerController extends Controller
 {
@@ -21,8 +22,6 @@ class CustomerController extends Controller
     
         if ($data && $data->email == $email) {
             $user_id = $this->session->get('user_id');
-    
-            // Fetch all restaurants and mark favorites
             $query = $this->db->query("SELECT 
                 restaurant.*,
                 CASE 
@@ -186,5 +185,48 @@ class CustomerController extends Controller
 
         return view('CustomerUsers/dashboard', ['favorites' => $restaurants]);
     }
+//
+    public function customerProfile() {
+        $session = session(); 
+        $CustomerId = $session->get('user_id');
+        $CustomerModel = new CustomerModel();
+        $Customer = $CustomerModel->find($CustomerId);
+        return view('CustomerUsers/customerProfile', ['Customer' => $Customer]);
 
+    }
+
+    public function CustomerUpdateprofile()
+    {
+        $session = session();
+        $CustomerId = $session->get('user_id');
+        $CustomerModel = new CustomerModel();
+
+        $data = [
+            'name' => $this->request->getPost('name'),
+            'email' => $this->request->getPost('email'),
+            'phone_number' => $this->request->getPost('phone_number'),
+            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+        ];
+
+        if (!$this->validate([
+            'name' => 'required|alpha_space',
+            'email' => 'required|valid_email',
+            'phone_number' => 'required|numeric',
+            'password' => 'required|min_length[8]',
+        ])) {
+            return redirect()->to('CustomerUsers/customerProfile')
+                             ->with('errors', $this->validator->getErrors())
+                             ->withInput();
+        }
+
+        try {
+            $CustomerModel->where('id', $CustomerId)->update($CustomerId, $data);
+            $session->setFlashdata('success', 'Profile updated successfully!');
+        } catch (\Exception $e) {
+            $session->setFlashdata('error', 'Failed to update profile. Try again later.');
+        }
+
+        return redirect()->to('CustomerUsers/dashboard');
+    }
+//
 }

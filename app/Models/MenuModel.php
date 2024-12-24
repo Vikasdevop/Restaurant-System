@@ -27,7 +27,6 @@ class MenuModel extends Model {
         $query = $this->db->get();
         return $query->row()->quantity_limit;
     }
-    
 }
 
 

@@ -234,7 +234,7 @@
                         <td><?php echo $item['item_name']; ?></td>
                         <td><?php echo $item['quantity']; ?></td>
                         <td><?php echo $item['item_price']; ?></td>
-                        <td><a href="/api/delete-item/<?php echo $item['cart_id'];?>" type="button" class="btn btn-danger">Delete Item</a href></td>
+                        <td><a href="/api/delete-item/<?php echo $item['cart_id'];?>" type="button" class="btn btn-danger">Delete</a href></td>
                     </tr>
                     <?php endforeach; ?>
                 <?php else: ?>

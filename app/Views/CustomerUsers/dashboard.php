@@ -5,147 +5,183 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurants and Menus</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<style>
     body {
         background-color: #ffffff;
-        color: #333; /* Text color */
-        font-family: 'Poppins', sans-serif; /* Font style */
+        color: #333;
+        font-family: 'Poppins', sans-serif;
         margin: 0;
         padding: 0;
     }
 
-    .container {
-        margin-top: 40px; /* Space from the top for container */
+    h2 {
+        color: #ff0000;
+        font-weight: bold;
+        font-size: 3rem;
+        text-align: start;
+        font-family: 'Poppins', sans-serif;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        background-color: #ff5722;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease-in-out;
+        padding: 5px 0;
     }
 
-    h2 {
-        color: #ff0000; /* Red color for the heading */
-        font-weight: bold; /* Bold text */
-        font-size: 2.5rem; /* Font size */
-        text-align: start; /* Left align */
-        margin-bottom: 10px; /* Space below heading */
+    h2:hover {
+        color: #ff0000;
+        text-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3);
+        transform: scale(1.05);
+    }
+
+    .cart img {
+        max-width: 40px;
+        max-height: 40px;
+        object-fit: contain;
+    }
+
+    .cart{
+        margin-top: 30px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        margin-left: 1130px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-btn {
+        position: absolute;
+        right: 25px;
+        background-color: transparent;
+        border: transparent;
+    }
+
+    .profile-btn img { 
+        width: 30px;
+        height: 30px;
+        border-radius: 5%;
+        object-fit: cover;
     }
 
     .btn-primary {
-        background-color: #e74c3c; /* Gradient background for button */
-        border: none; /* No border */
-        color: #fff; /* White text color */
-        font-weight: bold; /* Bold text */
-        padding: 10px 15px; /* Padding inside the button */
-        font-size: 1.1rem; /* Font size */
-        border-radius: 5px; /* Rounded corners */
-        transition: background 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Animation effects on hover */
+        background-color: #e74c3c;
+        border: none;
+        color: #fff;
+        font-weight: bold;
+        padding: 10px 15px;
+        font-size: 1.1rem;
+        border-radius: 5px;
+        transition: background 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
         position: relative;
         overflow: hidden;
     }
 
     .btn-primary::before {
-        content: ""; /* Decorative element inside the button */
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
-        width: 0; /* Initially hidden */
-        height: 100%; /* Full height */
-        background: rgba(255, 255, 255, 0.3); /* White overlay */
-        transition: width 0.5s ease; /* Animation for expansion */
+        width: 0;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.3);
+        transition: width 0.5s ease;
         z-index: 1;
     }
 
     .btn-primary:hover::before {
-        width: 100%; /* Expands on hover */
+        width: 100%;
     }
 
     .btn-primary:hover {
-        transform: translateY(-3px); /* Button moves up slightly on hover */
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     }
 
     .restaurant-list {
-        display: grid; /* Grid layout for restaurant cards */
-        grid-template-columns: repeat(4, 1fr); /* 4 columns layout */
-        gap: 50px; /* Space between cards */
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 50px;
         padding: 50px;
     }
 
     @media (max-width: 768px) {
         .restaurant-list {
-            grid-template-columns: repeat(2, 1fr); /* 2 columns layout for smaller screens */
+            grid-template-columns: repeat(2, 1fr);
         }
     }
 
     @media (max-width: 400px) {
         .restaurant-list {
-            grid-template-columns: 1fr; /* Single column layout for very small screens */
+            grid-template-columns: 1fr;
         }
     }
 
     .restaurant-card {
-        background-color: #ecf0f1; /* Light grey background for restaurant card */
-        border-radius: 8px; /* Rounded corners */
+        background-color: #ecf0f1;
+        border-radius: 8px;
         padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         height: 100%;
     }
 
     .restaurant-card:hover {
-        transform: translateY(-5px); /* Slight lift effect on hover */
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Deeper shadow on hover */
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
     }
 
     .restaurant-card img {
-        border-radius: 5px; /* Rounded corners for image */
-        max-height: 120px; /* Max height for images */
-        object-fit: cover; /* Ensures the image covers the space */
-        width: 100%; /* Full width */
-        margin-bottom: 30px; /* Space below the image */
+        border-radius: 5px;
+        max-height: 120px;
+        object-fit: cover;
+        width: 100%;
+        margin-bottom: 30px;
     }
 
     .restaurant-title {
-        font-size: 1.6rem; /* Font size for restaurant name */
-        font-weight: bold; /* Bold text */
-        color: #000000; /* Black text color */
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #000000;
         margin: 0;
     }
 
     .restaurant-description {
-        color: #7f8c8d; /* Light grey for description */
-        font-size: 1rem; /* Font size for description */
-        margin-bottom: 15px; /* Space below description */
+        color: #7f8c8d;
+        font-size: 1rem;
+        margin-bottom: 15px;
     }
     .search-bar {
-        display: inline-flex; /* Align search bar in-line with headings */
+        display: inline-flex;
         justify-content: center;
         align-items: center;
-        margin-left: 20px; /* Space between the headings and search bar */
+        margin-left: 20px;
     }
 
     h2, h3 {
-        display: inline; /* Ensure headings are in-line */
-        margin-right: 210px; /* Space between heading and search bar */
+        display: inline;
+        margin-right: 210px;
     }
     
     .search-bar input {
         width: 100%;
-        max-width: 750px; /* Max width of input */
-        border-radius: 5px; /* Rounded corners for input */
-        padding: 12px 18px; /* Padding inside input */
-        font-size: 1.1rem; /* Font size */
-        border: 1.5px solid #ffffff; /* Red border */
-        margin-right: 10px; /* Space between input and button */
+        max-width: 750px;
+        border-radius: 5px;
+        padding: 12px 18px;
+        font-size: 1.1rem;
+        border: 1.5px solid #ffffff;
+        margin-right: 10px;
     }
 
     .range-slider-container {
-        text-align: center; /* Center-align the range slider */
-        margin-bottom: 40px; /* Space below the slider */
+        text-align: center;
     }
 
     .range-slider {
-        width: 100%; /* Width of the range slider */
-        margin: 0 auto; /* Center the slider */
+        width: 100%;
+        margin: 0 auto;
     }
 
     .logout-btn {
@@ -155,19 +191,19 @@
     }
 
     .logout-btn .btn {
-        background-color: #ffffff; /* White background for logout button */
-        border: none; /* No border */
-        padding: 5px 20px; /* Padding inside button */
-        border-radius: 10px; /* Rounded corners */
-        font-size: 1.1rem; /* Font size */
-        font-weight: bold; /* Bold text */
-        margin-left: -90px; /* Shift the button to the left */
+        background-color: #ffffff;
+        border: none;
+        padding: 5px 20px;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-left: -90px;
     }
 
     @media (max-width: 768px) {
         .logout-btn {
             top: 10px;
-            right: 10px; /* Adjust logout button position on small screens */
+            right: 10px;
         }
     }
 
@@ -201,53 +237,92 @@
 
 <body>
     <div class="container">
-        <div class="logout-btn">
-            <a href="/logout" class="btn">Logout</a>
-        </div>
-        <a href="/CustomerUsers/dashboard" class="btn"><h2>Mealzo</h2></a>
-        <div class="container mt-5">
-        <h1 class="text-center">Search Restaurant</h1>
-        <!-- Search Form -->
-        <form action="<?= site_url('restaurants/search') ?>" method="get" class="d-flex justify-content-center mb-4">
-            <input 
-                type="text" 
-                name="search" 
-                class="form-control w-50 me-2" 
-                placeholder="Search for restaurants" 
-                value="<?= isset($searchQuery) ? esc($searchQuery) : '' ?>" 
-                required>
-            <button type="submit" class="btn btn-primary">Search</button>
-        </form>
-
-        <?php if (isset($searchQuery)): ?>
-            <?php if (!empty($restaurants)): ?> 
-                <ul class="rs">
-                <div  class = "restaurant-card">
-                    <?php foreach ($restaurants as $restaurant): ?>
-                        
-                        <li class="list-group-item">
-                            <a href="<?= site_url('menu/x/' . $restaurant['id']) ?>">
-                                <?= esc($restaurant['restaurant_name']) ?>
-                            </a>
-                        </li>
-                        
-                    <?php endforeach; ?>
+        <div class="dropdown" style="position: relative;">
+            <a href="/CustomerUsers/Payment" class="cart">
+                <img src="<?= base_url('/Restaurant_photo/cart.png') ?>" alt="Cart">
+            </a>
+            <button class="btn btn-secondary dropdown-toggle profile-btn" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"> 
+                <img src="<?= base_url('/Restaurant_photo/customerProfile.png')?>" alt="Profile">
+            </button>
+            
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="<?= site_url('CustomerUsers/customerProfile') ?>">Edit-Profile</a></li>
+                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                <div class="range-slider-container">
+                    <label for="range">Range:</label>
+                    <select id="range" onchange="updateDistanceValue()">
+                        <option value="2">2 km</option>
+                        <option value="5">5 km</option>
+                        <option value="10">10 km</option>
+                        <option value="15">15 km</option>
+                        <option value="20">20 km</option>
+                    </select>
+                    <span id="distanceValue">2 km</span>
                 </div>
-                </ul>
-            <?php else: ?>
-                <p class="text-center text-danger">No restaurants found matching your search.</p>
-            <?php endif; ?>
-        <?php endif; ?>
-    </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
-        <div class="range-slider-container">
-            <label for="rangeSlider">Select range (in km):</label>
-            <input type="range" id="range" min="2" max="20" step="1" value="1" onchange="filterRestaurantsByDistance()" />
-            <span id="distanceValue">2 km</span>
+                <script>
+                    function updateDistanceValue() {
+                        var distance = document.getElementById('range').value;
+                        document.getElementById('distanceValue').textContent = distance + ' km';
+                        filterRestaurantsByDistance(distance);
+                    }
+                </script>
+            </ul>
+
+            <a href="/CustomerUsers/dashboard" class="btn"><h2>Mealzo</h2></a>
+            <div class="container mt-5">
+                <!-- Search Form -->
+                <form action="<?= site_url('restaurants/search') ?>" method="get" class="d-flex justify-content-center mb-4">
+                    <input 
+                        type="text" 
+                        name="search" 
+                        class="form-control w-50 me-2" 
+                        placeholder="Search for restaurants" 
+                        value="<?= isset($searchQuery) ? esc($searchQuery) : '' ?>" 
+                        required>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+
+                <?php if (isset($searchQuery)): ?>
+                <?php if (!empty($restaurants)): ?> 
+                <ul class="rs">
+                    <div  class = "restaurant-card">
+                        <?php foreach ($restaurants as $restaurant): ?>
+                            <li class="list-group-item">
+                                <a href="<?= site_url('menu/x/' . $restaurant['id']) ?>">
+                                    <?= esc($restaurant['restaurant_name']) ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </div>
+                </ul>
+                    <?php else: ?>
+                        <p class="text-center text-danger">No restaurants found matching your search.</p>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+            <script>
+                const rangeSlider = document.getElementById('range');
+                const distanceValue = document.getElementById('distanceValue');
+
+                rangeSlider.addEventListener('input', function() {
+                localStorage.setItem('sliderValue', rangeSlider.value);
+                distanceValue.textContent = rangeSlider.value + ' km';
+                });
+
+                window.onload = function() {
+                    const savedValue = localStorage.getItem('sliderValue');
+                    if (savedValue !== null) {
+                        rangeSlider.value = savedValue;
+                        distanceValue.textContent = savedValue + ' km';
+                    }
+                };
+            </script>
         </div>
 
-        <div class="sidebar" style="flex: 1; padding: 20px; background-color: #f9f9f9; border-left: 1px solid #ddd;">
+        <div class="Favorite" style="flex: 1; padding: 20px; background-color: #f9f9f9; border-left: 1px solid #ddd;">
             <h3>Favorite Restaurants</h3>
             <ul style="list-style-type: none; padding: 0; margin: 0;">
                 <?php if (!empty($favorites)): ?>
@@ -264,7 +339,6 @@
                 <?php endif; ?>
             </ul>
         </div>
-
 
         <div class="restaurant-list" id="restaurantList">
         <!-- <?php if (empty($restaurantMenus)): ?>
@@ -410,5 +484,7 @@
 
     getUserLocation();
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

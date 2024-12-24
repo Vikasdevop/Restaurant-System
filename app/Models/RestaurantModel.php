@@ -40,4 +40,9 @@ class RestaurantModel extends Model {
     public function removeCartItems($restaurantId){
         return $this->db->query("DELETE FROM cart_table WHERE user_id = '$restaurantId'");
     }
+
+    public function changeStatus($restaurantId, $statusId){
+        return $this->db->query("UPDATE restaurant SET is_open = '$statusId' WHERE id ='$restaurantId' ");
+    }
+    
 }

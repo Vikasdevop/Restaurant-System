@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class FavoriteModel extends Model
 {
-    protected $table = 'favorites'; // Assuming a 'favorites' table exists
+    protected $table = 'favorites';
     protected $primaryKey = 'id';
     protected $allowedFields = ['user_id', 'restaurant_id'];
     

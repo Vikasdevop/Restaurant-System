@@ -6,6 +6,7 @@
 <title>Menu</title>
 <link href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">    
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
         html, body { 
             margin: 0;
@@ -32,9 +33,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            position: static; /* Prevent overlap */
-            margin-bottom: 20px; /* Space below the header */
-            padding: 10px; /* Consistent spacing */
+            position: static;
+            margin-bottom: 20px;
+            padding: 10px;
             background-color: white;
         }
 
@@ -93,8 +94,8 @@
         }
 
         .inline-header a.logout-btn {
-            position: static; /* Reset position to avoid overlap */
-            margin-left: auto; /* Align to the right */
+            position: static;
+            margin-left: auto;
             color: #000;
             background: #fff;
             padding: 10px 15px;
@@ -236,15 +237,19 @@
             <a href="<?= site_url('/menu/profile') ?>" class="profile">
                 <img src="<?= base_url('/Restaurant_photo/Profile.jpg')?>" alt="Profile">
             </a>
-            <form method="POST" action="<?= site_url('/restaurant/toggle_status'); ?>">
+            <form id = "statusForm">
                 <?= csrf_field(); ?>
                 <input type="hidden" name="restaurant_name" value="<?php echo $restaurant_name; ?>">
                 <label for="is_open" class="form-label">Restaurant Status:</label>
-                <select name="is_open" id="is_open" class="form-select">
-                    <option value="1" <?= $is_open ? 'selected' : ''; ?>>Open</option>
-                    <option value="0" <?= !$is_open ? 'selected' : ''; ?>>Closed</option>
-                </select>
-                <button type="submit" class="btn btn-primary">Update Status</button>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="isOpenDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <?= $is_open == 1 ? 'Open' : 'Closed'; ?>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="isOpenDropdown">
+                        <li><a class="dropdown-item" href="/changeStatus?status=1">Open</a></li>
+                        <li><a class="dropdown-item" href="/changeStatus?status=0">Closed</a></li>
+                    </ul>
+                </div>
             </form>
             <a href="<?= site_url('/logout') ?>" class="logout-btn">Logout</a>
         </header>

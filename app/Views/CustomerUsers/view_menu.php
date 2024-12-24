@@ -51,6 +51,7 @@
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s;
+            margin-top: 30px;
         }
 
         .card:hover {
@@ -124,7 +125,7 @@
         }
 
         .cart-container h3 {
-            color: #333;
+            color: #000;
             font-weight: bold;
             text-align: center;
         }

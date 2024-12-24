@@ -14,16 +14,23 @@ class MenuController extends BaseController
         helper("jwt_helper");
     }
 
-    public function toggle_status() {
-        $restaurantName = $this->request->getPost('restaurant_name');
-        $is_open = $this->request->getPost('is_open');
+    // public function toggle_status() {
+    //     if ($this->request->isAJAX()) {
+    //         $restaurantName = $this->request->getJSON('restaurant_name');
+    //         $is_open = $this->request->getJSON('is_open');
 
-        $this->restaurantModel->where('restaurant_name', $restaurantName)
-                              ->set('is_open', $is_open)
-                              ->update();
+    //         $updated = $this->restaurantModel->where('restaurant_name', $restaurantName)
+    //                                          ->set('is_open', $is_open)
+    //                                          ->update();
 
-        return redirect()->to('/menu')->with('message', 'Status updated successfully!');
-    }
+    //         if ($updated) {
+    //             return $this->response->setJSON(['success' => true, 'message' => 'Status updated successfully!']);
+    //         } else {
+    //             return $this->response->setJSON(['success' => false, 'message' => 'Failed to update status.']);
+    //         }
+    //     }
+    //     return redirect()->to('/menu')->with('message', 'Invalid request.');
+    // }
 
 
     public function index() {
@@ -79,14 +86,14 @@ class MenuController extends BaseController
 
 //
 
-    public function updateStatus()
-    {
-        $restaurantId = $this->request->getPost('restaurant_id');
-        $status = $this->request->getPost('status');
-        $db = \Config\Database::connect();
-        $db->table('restaurant')->where('id', $restaurantId)->update(['status' => $status]);
-        return $this->response->setJSON(['success' => true]);
-    }
+    // public function updateStatus()
+    // {
+    //     $restaurantId = $this->request->getPost('restaurant_id');
+    //     $status = $this->request->getPost('status');
+    //     $db = \Config\Database::connect();
+    //     $db->table('restaurant')->where('id', $restaurantId)->update(['status' => $status]);
+    //     return $this->response->setJSON(['success' => true]);
+    // }
 
 
     public function getItemQuantityLimit($itemId) {
@@ -126,10 +133,9 @@ class MenuController extends BaseController
         return view('menu/add');
     }
 
-//
     public function profile() {
     $session = session();
-    $restaurantId = $session->get('user_id'); // Ensure session stores restaurant ID
+    $restaurantId = $session->get('user_id');
     $restaurantModel = new RestaurantModel();
     $restaurant = $restaurantModel->find($restaurantId);
     return view('menu/profile', ['restaurant' => $restaurant]);
@@ -140,46 +146,39 @@ class MenuController extends BaseController
         $session = session();
         $restaurantId = $session->get('user_id');
         $restaurantModel = new RestaurantModel();
-
-        $photo =  $this->request->getFile('photo');
-        $photo_name = $photo->getName();
-        $data = [
-            'restaurant_name' => $this->request->getPost('restaurant_name'),
-            'email' => $this->request->getPost('email'),
-            'phone_number' => $this->request->getPost('phone_number'),
-            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-            'photo' => '/Restaurant_photo'.'/'.$photo_name,
-        ];
     
+        $photo = $this->request->getFile('photo');
         $rules = [
             'restaurant_name' => 'required|min_length[3]|max_length[50]',
             'email' => 'required|valid_email',
-            'photo' => 'required',
             'phone_number' => 'required|numeric|min_length[10]',
             'password' => 'required|min_length[8]',
         ];
-
-
+    
         if ($this->validate($rules)) {
-            if (!empty($data)) {
-
-                $uploadPhoto = FCPATH . '/Restaurant_photo';
-                $photo->move($uploadPhoto);
-                $restaurantModel->where('id', $restaurantId)->update($restaurantId, $data);
-                $session->setFlashdata('success', 'Profile updated successfully!');
-                return redirect()->to('/menu');
-            } else {
-                $session->setFlashdata('error', 'No data to update.');
-                return redirect()->to('/menu/profile')->withInput();
+            $data = [
+                'restaurant_name' => $this->request->getPost('restaurant_name'),
+                'email' => $this->request->getPost('email'),
+                'phone_number' => $this->request->getPost('phone_number'),
+                'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            ];
+    
+            if ($photo && $photo->isValid() && !$photo->hasMoved()) {
+                $uploadPath = FCPATH . '/Restaurant_photo';
+                $photoName = $photo->getRandomName(); // Use a random name for the uploaded file
+                $photo->move($uploadPath, $photoName);
+                $data['photo'] = '/Restaurant_photo/' . $photoName; // Update the photo path in the data
             }
+    
+            $restaurantModel->where('id', $restaurantId)->update($restaurantId, $data);
+            $session->setFlashdata('success', 'Profile updated successfully!');
+            return redirect()->to('/menu');
         } else {
             return redirect()->to('/menu/profile')
                 ->withInput()
                 ->with('errors', $this->validator->getErrors());
         }
     }
-    
-//
 
     public function viewmenu ($id)
     {
@@ -280,5 +279,16 @@ class MenuController extends BaseController
             return $this->response->setJSON(['status'=>true]);
         }
         return $this->response->setJSON(['status'=>false]);
+    }
+
+    public function changeRestaurantStatus(){
+        $statusId = $this->request->getGet('status');
+        
+        $session = session();
+        $restaurantId = $session->get('user_id');
+
+        $res = $this->restaurantModel->changeStatus($restaurantId, $statusId);
+
+        return redirect()->to('/menu');
     }
 }

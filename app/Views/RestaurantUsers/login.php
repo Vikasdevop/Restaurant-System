@@ -49,7 +49,7 @@
     }
 
     h2 {
-        color: #000000; /* Deep orange for heading */
+        color: #000000;
         font-weight: 700;
         text-align: center;
         margin-bottom: 25px;
@@ -72,7 +72,7 @@
     }
 
     .btn-primary {
-        background: #000000; /* Bright orange button */
+        background: #000000;
         color: #fff;
         font-size: 18px;
         margin-top: 20px;
@@ -83,13 +83,13 @@
     }
 
     .btn-primary:hover {
-        background: #515a5a; /* Darker orange on hover */
+        background: #515a5a;
         transform: scale(1.05);
         box-shadow: 0 8px 25px rgba(255, 69, 0, 0.3);
     }
 
     .login-option-box {
-        background: #e74c3c; /* Bright orange for login options */
+        background: #e74c3c;
         border-radius: 10px;
         color: #fff;
         font-size: 20px;
@@ -103,13 +103,13 @@
     }
 
     .login-option-box:hover {
-        background: #e74c3c; /* Darker orange on hover */
+        background: #e74c3c;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         transform: scale(1.05);
     }
 
     .modal-content {
-        background: #FFFFFF; /* White background for modal */
+        background: #FFFFFF;
         border-radius: 15px;
         color: #555;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -130,7 +130,6 @@
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
-
     <div class="container d-flex justify-content-center align-items-center">
         <div class="card">
             <div class="logo">
@@ -145,20 +144,16 @@
                 <div class="input-group mb-3">
                     <input type="password" name="password" class="form-control" placeholder="Password" required>
                 </div>
-
                 <div class="login-as-heading">Login As:</div>
-
                 <div class="boxy">
                     <select name = "role" id = "login as" required>
                         <option value = "Restaurant">Restaurant</option>
                         <option value = "Customer">Customer</option>
+                        <!-- <option value = "Admin">Admin</option> -->
                     </select>
                 </div>
-                
                 <div class="g-recaptcha my-3" data-sitekey="6LejwHsqAAAAAKfQUxQMCjISddYCWvuoJjNW98WS"></div>
-
                 <button type="submit" class="btn btn-primary w-100"><span>Login</span></button>
-                
             </form>
             <div class="text-center mt-3">
                 <p>Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Register here</a></p>
@@ -176,6 +171,7 @@
                 <div class="modal-body text-center">
                     <button onclick="window.location.href='/register'" class="btn btn-primary">Restaurant</button>
                     <button onclick="window.location.href='/customer/register'" class="btn btn-primary">Customer</button>
+                    <!-- <button onclick="window.location.href='/Admin/register'" class="btn btn-primary">Admin</button> -->
                 </div>
             </div>
         </div>
