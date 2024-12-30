@@ -45,4 +45,7 @@ class RestaurantModel extends Model {
         return $this->db->query("UPDATE restaurant SET is_open = '$statusId' WHERE id ='$restaurantId' ");
     }
     
+    public function updateQuantity($itemId, $cartId, $query){
+        return $this->db->query("UPDATE cart_table SET quantity=quantity $query WHERE cart_id ='$cartId' AND item_id = '$itemId'");
+    }
 }

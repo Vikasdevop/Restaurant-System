@@ -71,3 +71,6 @@ $routes->post('CustomerUsers/api/confirmPayment-api', 'menuController::confimPay
 
 //CHANGE RESTAURENT STATUS
 $routes->get('/changeStatus', 'menuController::changeRestaurantStatus');
+
+//UPDate Menu quantity
+$routes->post('CustomerUsers/api/updateItem', 'menuController::updateQuantity');

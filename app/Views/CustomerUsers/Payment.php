@@ -125,97 +125,10 @@
             font-size: 17px;
         }
     </style>
-<!-- <script>
-    let cart = JSON.parse(localStorage.getItem('cart')) || {};
-
-    async function fetchQuantityLimit(itemId) {
-        try {
-            const a = menuItems.find(i=>i.id==itemId);
-            return a.quantity_limit;
-        } catch (error) {
-            console.error('Error fetching quantity limit:', error);
-            return 0;
-        }
-    }
-
-    async function addToCart(itemId, itemName, itemPrice) {
-        const quantityLimit = await fetchQuantityLimit(itemId);
-        console.log('Quantity Limit:', quantityLimit);
-        if (cart[itemId]) {
-            if (cart[itemId].quantity + 1 > quantityLimit) {
-                alert(`Cannot add more of this item. Available stock is ${quantityLimit}.`);
-                return;
-            } else {
-                cart[itemId].quantity += 1;
-            }
-        } else {
-            cart[itemId] = {
-                name: itemName,
-                price: itemPrice,
-                quantity: 1
-            };
-        }
-
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCart();
-    }
-
-    function removeFromCart(itemId) {
-        if (cart[itemId]) {
-            cart[itemId].quantity -= 1;
-            if (cart[itemId].quantity <= 0) {
-                delete cart[itemId];
-            }
-        }
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCart();
-    }
-
-    function updateCart() {
-        let cartTable = document.getElementById('cart-items');
-        cartTable.innerHTML = '';
-        let totalBill = 0;
-        for (let itemId in cart) {
-            let item = cart[itemId];
-            let row = `<tr>
-                        <td>${item.name}</td>
-                        <td>
-                            <div class="quantity-controls">
-                                <button class="quantity-btn" onclick="removeFromCart(${itemId})">-</button>
-                                <span class="quantity-display">${item.quantity}</span>
-                                <button class="quantity-btn" onclick="addToCart(${itemId}, '${item.name}', ${item.price})">+</button>
-                            </div>
-                        </td>
-                        <td>₹${item.price}</td>
-                        <td>₹${item.price * item.quantity}</td>
-                        <td><button class="btn btn-danger btn-sm" onclick="removeFromCart(${itemId})">Remove</button></td>
-                    </tr>`;
-            cartTable.innerHTML += row;
-            totalBill += item.price * item.quantity;
-        }
-
-        document.getElementById('total-bill').innerText = '₹' + totalBill;
-        if (Object.keys(cart).length === 0) {
-            document.getElementById('empty-cart-msg').style.display = 'block';
-        } else {
-            document.getElementById('empty-cart-msg').style.display = 'none';
-        }
-    }
-
-    function confirmOrder() {
-        if (Object.keys(cart).length === 0) {
-            alert("Your cart is empty!");
-        } else {
-            alert("Your order has been confirmed!");
-        }
-    }
-
-    window.onload = updateCart;
-</script> -->
 </head>
 <body>
     <div class="container">
-    <a href="javascript:history.back()" class="btn btn-secondary mb-4">&lt;Back</a>
+        <a href="javascript:history.back()" class="btn btn-secondary mb-4">&lt;Back</a>
         <h1>Your Cart</h1>
 
         <div class="table-responsive">
@@ -230,59 +143,98 @@
                 </thead>
                 <?php if(!empty($cartItems)): ?>
                     <?php foreach($cartItems as $item): ?>
-                    <tr>
+                    <tr id="item-row-<?php echo $item['cart_id']; ?>">
                         <td><?php echo $item['item_name']; ?></td>
-                        <td><?php echo $item['quantity']; ?></td>
-                        <td><?php echo $item['item_price']; ?></td>
-                        <td><a href="/api/delete-item/<?php echo $item['cart_id'];?>" type="button" class="btn btn-danger">Delete</a href></td>
+                        <td>
+                            <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, -1, <?php echo $item['item_price']; ?>, <?php echo $item['item_id']; ?>, '-1')" class="btn btn-sm btn-secondary">-</button>
+                            <span id="quantity-<?php echo $item['cart_id']; ?>"><?php echo $item['quantity']; ?></span>
+                            <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, 1, <?php echo $item['item_price']; ?>, <?php echo $item['item_id']; ?>, '+1')" class="btn btn-sm btn-secondary">+</button>
+                        </td>
+                        <td id="price-<?php echo $item['cart_id']; ?>"><?php echo $item['item_price'] * $item['quantity']; ?></td>
+                        <td><a href="/api/delete-item/<?php echo $item['cart_id'];?>" type="button" class="btn btn-danger">Delete</a></td>
                     </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                    <td>NO ITEMS IN CART</td>
-                    <tr>
+                        <td colspan="4">NO ITEMS IN CART</td>
+                    </tr>
                 <?php endif; ?>
                 <tbody id="cart-items"></tbody>
             </table>
             <p id="empty-cart-msg" class="empty-cart-msg" style="display: none;">Your cart is empty!</p>
         </div>
 
-        <div id="total-bill"><?php echo 'Rs. '.$total; ?></div>
+        <div id="total-bill">Total: Rs. <span id="total-amount"><?php echo $total; ?></span></div>
 
         <a href="#" class="btn btn-success btn-block" onclick="confirmOrder()">Confirm Order</a>
     </div>
+
     <div id="toast"></div>
 </body>
+
 <script>
+    async function fetchQuantityLimit(itemId) { 
+        try {
+            const a = menuItems.find(i => i.id == itemId);
+            return a.quantity_limit;
+        } catch (error) {
+            console.error('Error fetching quantity limit:', error);
+            return 0;
+        }
+    }
+
+    async function updateQuantity(cartId, change, itemPrice, itemId, query){
+        const response = await fetch('api/updateItem', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                'itemId': itemId,
+                'cartId': cartId,
+                'query': query
+            }),
+        })
+        window.location.reload()
+    }
+
+    function updateTotalAmount() {
+        const priceElements = document.querySelectorAll('[id^="price-"]');
+        let total = 0;
+        priceElements.forEach(priceElement => {
+            total += parseFloat(priceElement.textContent);
+        });
+        document.getElementById('total-amount').textContent = total;
+    }
+
     async function confirmOrder() {
-            const response = await fetch('api/confirmPayment-api', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({}),
-            });
+        const response = await fetch('api/confirmPayment-api', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({}),
+        });
 
-            const data = await response.json();
-            if(data.status === true){
-                showToast("Payment Successful!!");
-                setTimeout(function() {
-                    location.reload();
-                }, 1000);
-            }
-            else{
-                showToast("Payment Failed");
-            }
-            
-        }
-        function showToast(message) {
-            var toast = document.getElementById("toast");
-            toast.innerHTML = message;
-            toast.style.visibility = "visible";
-
+        const data = await response.json();
+        if (data.status === true) {
+            showToast("Payment Successful!!");
             setTimeout(function() {
-                toast.style.visibility = "hidden";
-            }, 3000);
+                location.reload();
+            }, 1000);
+        } else {
+            showToast("Payment Failed");
         }
+    }
+
+    function showToast(message) {
+        var toast = document.getElementById("toast");
+        toast.innerHTML = message;
+        toast.style.visibility = "visible";
+
+        setTimeout(function() {
+            toast.style.visibility = "hidden";
+        }, 3000);
+    }
 </script>
 </html>

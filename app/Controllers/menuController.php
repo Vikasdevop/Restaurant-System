@@ -291,4 +291,16 @@ class MenuController extends BaseController
 
         return redirect()->to('/menu');
     }
+
+    public function updateQuantity(){
+        $json = $this->request->getJSON();
+
+        $itemId = $json->itemId;
+        $cartId = $json->cartId;
+        $query = $json->query;
+
+        $this->restaurantModel->updateQuantity($itemId, $cartId, $query);
+        // var_dump($json);
+        // die();
+    }
 }
