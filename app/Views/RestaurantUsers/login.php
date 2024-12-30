@@ -152,7 +152,7 @@
                         <!-- <option value = "Admin">Admin</option> -->
                     </select>
                 </div>
-                <div class="g-recaptcha my-3" data-sitekey="6LejwHsqAAAAAKfQUxQMCjISddYCWvuoJjNW98WS"></div>
+                <div class="g-recaptcha my-3" data-sitekey="6Lc1cqkqAAAAADicwuGMDwNyWn-MKXUA8eHY4yKl"></div>
                 <button type="submit" class="btn btn-primary w-100"><span>Login</span></button>
             </form>
             <div class="text-center mt-3">

@@ -67,7 +67,7 @@ class RestaurantController extends Controller
 
     public function verifyRecaptcha($recaptchaResponse)
     {
-        $secretKey = '6LejwHsqAAAAAEXraOyREvGOGXXq4_uShN31PTSA';
+        $secretKey = '6Lc1cqkqAAAAAE-_SFM4-K3b-i5dAX0dY2rFUl53';
         $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$recaptchaResponse");
         $responseKeys = json_decode($response, true);
 

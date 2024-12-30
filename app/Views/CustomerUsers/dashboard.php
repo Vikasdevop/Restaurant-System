@@ -353,15 +353,12 @@
                     <?php endif; ?>
                     <h3 class="restaurant-title">
                         <?= $restaurant['restaurant_name'] ?>
-                        <?php if (!$restaurant['status']): ?>
-                            <span class="badge bg-danger">Closed</span>
+                        <?php if ($restaurant['is_open'] == 1): ?>
+                            <a href="/menu/x/<?= $restaurant['id']; ?>" class="btn btn-primary">View Menu</a>
+                        <?php else: ?>
+                            <button class="btn btn-secondary" disabled>Restaurant is currently closed</button>
                         <?php endif; ?>
                     </h3>
-                    <?php if ($restaurant['is_open']==1): ?>
-                        <a href="/menu/x/<?= $restaurant['id']; ?>" class="btn btn-primary">View Menu</a>
-                    <?php else: ?>
-                        <button class="btn btn-secondary" disabled>Restaurant is currently closed</button>
-                    <?php endif; ?>
 
                     <?php if (session()->get('status') == 'added'): ?>
                         <div class="toast-container position-fixed bottom-0 end-0 p-3">
