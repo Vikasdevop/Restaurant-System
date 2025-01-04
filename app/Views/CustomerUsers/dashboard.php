@@ -257,7 +257,9 @@
           <label for="range">Range:</label>
           <select id="range" onchange="updateDistanceValue()">
             <option value="2">2 km</option>
+            <option value="3">3 km</option>
             <option value="5">5 km</option>
+            <option value="7">7 km</option>
             <option value="10">10 km</option>
             <option value="15">15 km</option>
             <option value="20">20 km</option>
@@ -324,14 +326,13 @@
       </script>
     </div>
 
-    <div class="Favorite" style="flex: 1; padding: 20px; background-color: #f9f9f9; border-left: 1px solid #ddd;">
+    <div class="Favorite" style="flex: 1; padding: 15px; background-color: #f9f9f9; border-left: 1px solid #ddd;">
       <h3>Favorite Restaurants</h3>
       <ul style="list-style-type: none; padding: 0; margin: 0;">
         <?php if (!empty($favorites)): ?>
           <?php foreach ($favorites as $restaurant): ?>
             <li style="margin-bottom: 10px;">
-              <a href="<?= base_url('customer/viewMenu/' . $restaurant['id']) ?>"
-                style="text-decoration: none; color: #000;">
+              <a href="<?= base_url('menu/x/' . $restaurant['id']) ?>">
                 <?= esc($restaurant['restaurant_name']) ?>
               </a>
             </li>
@@ -475,7 +476,7 @@
             function (position) {
               window.userLatitude = position.coords.latitude;
               window.userLongitude = position.coords.longitude;
-              filterRestaurantsByLocation(5); // Default to 5 km
+              filterRestaurantsByLocation(5);
             },
             function (error) {
               console.error('Error getting location:', error.message);

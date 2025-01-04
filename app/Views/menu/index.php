@@ -240,7 +240,6 @@
       <a href="<?= site_url('/menu/profile') ?>" class="profile">
         <img src="<?= base_url('/Restaurant_photo/Profile.jpg') ?>" alt="Profile">
       </a>
-      <a href="<?= site_url('/menu/category') ?>" class="Category">Menu-item Category</a>
       <form id="statusForm">
         <?= csrf_field(); ?>
         <input type="hidden" name="restaurant_name" value="<?php echo $restaurant_name; ?>">
