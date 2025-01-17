@@ -89,6 +89,47 @@
       box-shadow: 0 8px 25px rgba(255, 69, 0, 0.3);
     }
 
+    .login-as{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .boxy {
+      display: flex;
+      gap: 10px;
+    }
+
+    .boxy input {
+      display: none;
+    }
+
+    .boxy label {
+      display: inline-block;
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      text-align: center;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    .boxy label:hover {
+      background-color: #e0e0e0;
+    }
+
+    .boxy input:checked+label {
+      background-color: #839192;
+      color: black;
+      border-color: #839192;
+    }
+
+
+
     .login-option-box {
       background: #e74c3c;
       border-radius: 10px;
@@ -146,12 +187,14 @@
         <div class="input-group mb-3">
           <input type="password" name="password" class="form-control" placeholder="Password" required>
         </div>
-        <div class="login-as-heading">Login As:</div>
-        <div class="boxy">
-          <select name="role" id="login as" required>
-            <option value="Restaurant">Restaurant</option>
-            <option value="Customer">Customer</option>
-          </select>
+        <div class="login-as">Login As:
+          <div class="boxy">
+            <input type="radio" name="role" id="login-as-restaurant" value="Restaurant" required>
+            <label for="login-as-restaurant">Restaurant</label>
+
+            <input type="radio" name="role" id="login-as-customer" value="Customer" required>
+            <label for="login-as-customer">Customer</label>
+          </div>
         </div>
         <div class="g-recaptcha my-3" data-sitekey="6Lc1cqkqAAAAADicwuGMDwNyWn-MKXUA8eHY4yKl"></div>
         <button type="submit" class="btn btn-primary w-100"><span>Login</span></button>

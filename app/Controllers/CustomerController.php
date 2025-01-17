@@ -120,11 +120,26 @@ class CustomerController extends Controller
     $data = [];
 
     if ($searchQuery) {
-      $sql = "SELECT * FROM restaurant WHERE restaurant_name LIKE ?";
-      $query = $this->db->query($sql, ["%$searchQuery%"]);
-      $data['restaurants'] = $query->getResultArray();
+      $searchSql = "SELECT DISTINCT restaurant.* 
+                    FROM restaurant
+                    LEFT JOIN menu ON restaurant.id = menu.restaurant_id
+                    WHERE restaurant.restaurant_name LIKE ? 
+                       OR menu.name LIKE ?";
+
+      $searchQueryResult = $this->db->query($searchSql, ["%$searchQuery%", "%$searchQuery%"]);
+
+      $data['restaurants'] = $searchQueryResult->getResultArray();
+
+      $foodItemSql = "SELECT menu.name, restaurant.restaurant_name, restaurant.id as restaurant_id
+                      FROM menu
+                      INNER JOIN restaurant ON menu.restaurant_id = restaurant.id
+                      WHERE menu.name LIKE ?";
+
+      $foodQueryResult = $this->db->query($foodItemSql, ["%$searchQuery%"]);
+      $data['foodItems'] = $foodQueryResult->getResultArray();
     } else {
       $data['restaurants'] = [];
+      $data['foodItems'] = [];
     }
 
     $data['searchQuery'] = $searchQuery;

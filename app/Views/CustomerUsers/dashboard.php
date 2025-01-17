@@ -16,6 +16,14 @@
       padding: 0;
     }
 
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      padding-inline-start: 5px;
+    }
+
     h2 {
       color: #ff0000;
       font-weight: bold;
@@ -46,14 +54,12 @@
     }
 
     .cart {
-      margin-top: 30px;
-      background-color: #f8f9fa;
-      border-radius: 8px;
-      margin-left: 1130px;
+      margin-left: 16px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
 
     .profile-btn {
+      align-items: center;
       position: absolute;
       right: 25px;
       background-color: transparent;
@@ -105,7 +111,7 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 50px;
-      padding: 50px;
+      padding: 90px;
     }
 
     @media (max-width: 768px) {
@@ -121,6 +127,9 @@
     }
 
     .restaurant-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
       background-color: #ecf0f1;
       border-radius: 8px;
       padding: 20px;
@@ -143,6 +152,9 @@
     }
 
     .restaurant-title {
+      /* display: flex; */
+      align-items: center;
+      justify-content: center;
       font-size: 1.6rem;
       font-weight: bold;
       color: #000000;
@@ -162,12 +174,6 @@
       margin-left: 20px;
     }
 
-    h2,
-    h3 {
-      display: inline;
-      margin-right: 210px;
-    }
-
     .search-bar input {
       width: 100%;
       max-width: 750px;
@@ -179,6 +185,9 @@
     }
 
     .range-slider-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
     }
 
@@ -201,13 +210,7 @@
       font-size: 1.1rem;
       font-weight: bold;
       margin-left: -90px;
-    }
-
-    @media (max-width: 768px) {
-      .logout-btn {
-        top: 10px;
-        right: 10px;
-      }
+      margin-right: 20px;
     }
 
     .sidebar {
@@ -235,24 +238,87 @@
       color: #0056b3;
       text-decoration: underline;
     }
+
+    /* Dropdown menu styling */
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #ffffff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 10px 0;
+      z-index: 1000;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      display: block;
+    }
+
+    .dropdown-menu .dropdown-item {
+      padding: 10px 20px;
+      color: #333333;
+      text-decoration: none;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    .dropdown-menu .dropdown-item:hover {
+      background-color: #f8f9fa;
+      color: #000000;
+    }
+
+    .range-slider-container {
+      padding: 10px 20px;
+      border-top: 1px solid #e9ecef;
+      margin-top: 5px;
+    }
+
+    .range-slider-container label {
+      font-size: 14px;
+      color: #555555;
+      margin-right: 10px;
+    }
+
+    .range-slider-container select {
+      padding: 5px 10px;
+      font-size: 14px;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .range-slider-container select:focus {
+      border-color: #80bdff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+    }
+
+    .range-slider-container #distanceValue {
+      font-weight: bold;
+      margin-left: 10px;
+      color: #007bff;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <div class="dropdown" style="position: relative;">
-      <a href="/CustomerUsers/Payment" class="cart">
-        <img src="<?= base_url('/Restaurant_photo/cart.png') ?>" alt="Cart">
-      </a>
+    <a href="/CustomerUsers/dashboard" class="btn">
+      <h2>Mealzo</h2>
+    </a>
+    <div>
       <button class="btn btn-secondary dropdown-toggle profile-btn" type="button" id="dropdownMenuButton"
         data-bs-toggle="dropdown" aria-expanded="false">
         <img src="<?= base_url('/Restaurant_photo/customerProfile.png') ?>" alt="Profile">
       </button>
-
+      <a href="/CustomerUsers/Payment" class="cart">
+        <img src="<?= base_url('/Restaurant_photo/cart.png') ?>" alt="Cart">
+      </a>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item" href="<?= site_url('CustomerUsers/customerProfile') ?>">Edit-Profile</a>
-        </li>
-        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+        <li><a class="dropdown-item" href="<?= site_url('CustomerUsers/customerProfile') ?>">Profile</a></li>
+
         <div class="range-slider-container">
           <label for="range">Range:</label>
           <select id="range" onchange="updateDistanceValue()">
@@ -266,6 +332,7 @@
           </select>
           <span id="distanceValue">2 km</span>
         </div>
+        <li><a class="dropdown-item" href="/logout">Log out</a></li>
 
         <script>
           function updateDistanceValue() {
@@ -275,222 +342,202 @@
           }
         </script>
       </ul>
-
-      <a href="/CustomerUsers/dashboard" class="btn">
-        <h2>Mealzo</h2>
-      </a>
-      <div class="container mt-5">
-        <!-- Search Form -->
-        <form action="<?= site_url('restaurants/search') ?>" method="get" class="d-flex justify-content-center mb-4">
-          <input type="text" name="search" class="form-control w-50 me-2" placeholder="Search for restaurants"
-            value="<?= isset($searchQuery) ? esc($searchQuery) : '' ?>" required>
-          <button type="submit" class="btn btn-primary">Search</button>
-        </form>
-
-        <?php if (isset($searchQuery)): ?>
-          <?php if (!empty($restaurants)): ?>
-            <ul class="rs">
-              <div class="restaurant-card">
-                <?php foreach ($restaurants as $restaurant): ?>
-                  <li class="list-group-item">
-                    <a href="<?= site_url('menu/x/' . $restaurant['id']) ?>">
-                      <?= esc($restaurant['restaurant_name']) ?>
-                    </a>
-                  </li>
-                <?php endforeach; ?>
-              </div>
-            </ul>
-          <?php else: ?>
-            <p class="text-center text-danger">No restaurants found matching your search.</p>
-          <?php endif; ?>
-        <?php endif; ?>
-      </div>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
-      <script>
-        const rangeSlider = document.getElementById('range');
-        const distanceValue = document.getElementById('distanceValue');
-
-        rangeSlider.addEventListener('input', function () {
-          localStorage.setItem('sliderValue', rangeSlider.value);
-          distanceValue.textContent = rangeSlider.value + ' km';
-        });
-
-        window.onload = function () {
-          const savedValue = localStorage.getItem('sliderValue');
-          if (savedValue !== null) {
-            rangeSlider.value = savedValue;
-            distanceValue.textContent = savedValue + ' km';
-          }
-        };
-      </script>
     </div>
+  </div>
 
-    <div class="Favorite" style="flex: 1; padding: 15px; background-color: #f9f9f9; border-left: 1px solid #ddd;">
-      <h3>Favorite Restaurants</h3>
-      <ul style="list-style-type: none; padding: 0; margin: 0;">
-        <?php if (!empty($favorites)): ?>
-          <?php foreach ($favorites as $restaurant): ?>
-            <li style="margin-bottom: 10px;">
-              <a href="<?= base_url('menu/x/' . $restaurant['id']) ?>">
-                <?= esc($restaurant['restaurant_name']) ?>
-              </a>
-            </li>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <li>No favorite restaurants added yet.</li>
-        <?php endif; ?>
-      </ul>
-    </div>
+  <div class="input-search">
+    <form action="<?= site_url('restaurants/search') ?>" method="get" class="d-flex justify-content-center mb-4">
+      <input type="text" name="search" class="form-control w-50 me-2" placeholder="Search for restaurants"
+        value="<?= isset($searchQuery) ? esc($searchQuery) : '' ?>" required>
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <?php if (isset($searchQuery)): ?>
+      <?php if (!empty($restaurants)): ?>
+        <ul class="rs">
+          <div class="restaurant-card">
+            <?php foreach ($restaurants as $restaurant): ?>
+              <li class="list-group-item">
+                <a href="<?= site_url('menu/x/' . $restaurant['id']) ?>">
+                  <?= esc($restaurant['restaurant_name']) ?>
+                </a>
+              </li>
+            <?php endforeach; ?>
+          </div>
+        </ul>
+      <?php else: ?>
+        <p class="text-center text-danger">No restaurants found matching your search.</p>
+      <?php endif; ?>
+    <?php endif; ?>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const rangeSlider = document.getElementById('range');
+    const distanceValue = document.getElementById('distanceValue');
 
-    <div class="restaurant-list" id="restaurantList">
-      <!-- <?php if (empty($restaurantMenus)): ?>
+    rangeSlider.addEventListener('input', function () {
+      localStorage.setItem('sliderValue', rangeSlider.value);
+      distanceValue.textContent = rangeSlider.value + ' km';
+    });
+
+    window.onload = function () {
+      const savedValue = localStorage.getItem('sliderValue');
+      if (savedValue !== null) {
+        rangeSlider.value = savedValue;
+        distanceValue.textContent = savedValue + ' km';
+      }
+    };
+  </script>
+
+  <div class="restaurant-list" id="restaurantList">
+    <!-- <?php if (empty($restaurantMenus)): ?>
             <div class="alert alert-warning" role="alert">No restaurants found matching your search.</div>
         <?php else: ?> -->
-        <?php foreach ($restaurantMenus as $restaurant): ?>
-          <div class="restaurant-card" data-lat="<?= $restaurant['latitude'] ?>" data-lng="<?= $restaurant['longitude'] ?>">
-            <?php if (isset($restaurant['photo']) && !empty($restaurant['photo'])): ?>
-              <img src="<?= base_url('/' . $restaurant['photo']); ?>" alt="<?= $restaurant['restaurant_name']; ?>"
-                class="restaurant-image">
+      <?php foreach ($restaurantMenus as $restaurant): ?>
+        <div class="restaurant-card" data-lat="<?= $restaurant['latitude'] ?>" data-lng="<?= $restaurant['longitude'] ?>">
+          <?php if (isset($restaurant['photo']) && !empty($restaurant['photo'])): ?>
+            <img src="<?= base_url('/' . $restaurant['photo']); ?>" alt="<?= $restaurant['restaurant_name']; ?>"
+              class="restaurant-image">
+          <?php else: ?>
+            <img src="/public/Restaurant_photo/default.jpg" alt="Default Restaurant Image" class="img-fluid">
+          <?php endif; ?>
+          <h3 class="restaurant-title">
+            <?= $restaurant['restaurant_name'] ?>
+          </h3>
+          <h4 class="menu">
+            <?php if ($restaurant['is_open'] == 1): ?>
+              <a href="/menu/x/<?= $restaurant['id']; ?>" class="btn btn-primary">View Menu</a>
             <?php else: ?>
-              <img src="/public/Restaurant_photo/default.jpg" alt="Default Restaurant Image" class="img-fluid">
+              <button class="btn btn-secondary" disabled>Restaurant is currently closed</button>
             <?php endif; ?>
-            <h3 class="restaurant-title">
-              <?= $restaurant['restaurant_name'] ?>
-              <?php if ($restaurant['is_open'] == 1): ?>
-                <a href="/menu/x/<?= $restaurant['id']; ?>" class="btn btn-primary">View Menu</a>
-              <?php else: ?>
-                <button class="btn btn-secondary" disabled>Restaurant is currently closed</button>
-              <?php endif; ?>
-            </h3>
+          </h4>
 
-            <?php if (session()->get('status') == 'added'): ?>
-              <div class="toast-container position-fixed bottom-0 end-0 p-3">
-                <div id="toast-success" class="toast align-items-center text-bg-success border-0" role="alert"
-                  aria-live="assertive" aria-atomic="true" data-bs-delay="500">
-                  <div class="d-flex">
-                    <div class="toast-body">
-                      Added to favourites!
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                      aria-label="Close"></button>
+          <?php if (session()->get('status') == 'added'): ?>
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+              <div id="toast-success" class="toast align-items-center text-bg-success border-0" role="alert"
+                aria-live="assertive" aria-atomic="true" data-bs-delay="500">
+                <div class="d-flex">
+                  <div class="toast-body">
+                    Added to favourites!
                   </div>
+                  <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
                 </div>
               </div>
-              <?php session()->remove('status'); ?>
-            <?php endif; ?>
+            </div>
+            <?php session()->remove('status'); ?>
+          <?php endif; ?>
 
-            <?php if (session()->get('status') == 'removed'): ?>
-              <div class="toast-container position-fixed bottom-0 end-0 p-3">
-                <div id="toast-success" class="toast align-items-center text-bg-success border-0" role="alert"
-                  aria-live="assertive" aria-atomic="true" data-bs-delay="500">
-                  <div class="d-flex">
-                    <div class="toast-body">
-                      Removed from favourites!
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                      aria-label="Close"></button>
+          <?php if (session()->get('status') == 'removed'): ?>
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+              <div id="toast-success" class="toast align-items-center text-bg-success border-0" role="alert"
+                aria-live="assertive" aria-atomic="true" data-bs-delay="500">
+                <div class="d-flex">
+                  <div class="toast-body">
+                    Removed from favourites!
                   </div>
+                  <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
                 </div>
               </div>
-              <?php session()->remove('status'); ?>
-            <?php endif; ?>
+            </div>
+            <?php session()->remove('status'); ?>
+          <?php endif; ?>
 
-            <?php if ($restaurant['is_favorite'] == 1): ?>
-              <form action="/dashboard/removeFromFavorite/<?php echo $restaurant['id']; ?>" method="post">
-                <button type="submit" class="btn btn-outline-danger">Remove from Favourites</button>
-              </form>
-            <?php else: ?>
-              <form action="/dashboard/addToFavorite/<?php echo $restaurant['id']; ?>" method="post">
-                <button type="submit" class="btn btn-outline-success">Add to Favourites</button>
-              </form>
-            <?php endif; ?>
-          </div>
-        <?php endforeach; ?>
-      <?php endif; ?>
-    </div>
-    <script>
-      document.getElementById('range').addEventListener('input', function () {
-        document.getElementById('distanceValue').innerText = this.value + ' km';
-      });
+          <?php if ($restaurant['is_favorite'] == 1): ?>
+            <form action="/dashboard/removeFromFavorite/<?php echo $restaurant['id']; ?>" method="post">
+              <button type="submit" class="btn btn-outline-danger">Remove from Favourites</button>
+            </form>
+          <?php else: ?>
+            <form action="/dashboard/addToFavorite/<?php echo $restaurant['id']; ?>" method="post">
+              <button type="submit" class="btn btn-outline-success">Add to Favourites</button>
+            </form>
+          <?php endif; ?>
+        </div>
+      <?php endforeach; ?>
+    <?php endif; ?>
+  </div>
+  <script>
+    document.getElementById('range').addEventListener('input', function () {
+      document.getElementById('distanceValue').innerText = this.value + ' km';
+    });
 
-      function filterRestaurantsByDistance() {
-        const rangeValue = document.getElementById('range').value;
-        document.getElementById('distanceValue').textContent = rangeValue + ' km';
-        filterRestaurantsByLocation(rangeValue);
+    function filterRestaurantsByDistance() {
+      const rangeValue = document.getElementById('range').value;
+      document.getElementById('distanceValue').textContent = rangeValue + ' km';
+      filterRestaurantsByLocation(rangeValue);
+    }
+
+    function filterRestaurantsByLocation(rangeValue) {
+      const userLatitude = window.userLatitude;
+      const userLongitude = window.userLongitude;
+
+      if (userLatitude && userLongitude) {
+        document.querySelectorAll('.restaurant-card').forEach((card) => {
+          const lat = parseFloat(card.getAttribute('data-lat'));
+          const lng = parseFloat(card.getAttribute('data-lng'));
+          const distance = calculateDistance(userLatitude, userLongitude, lat, lng);
+
+          if (distance <= rangeValue) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+
+          const distanceElement = card.querySelector('.restaurant-distance');
+          if (distanceElement) {
+            distanceElement.innerText = `${distance.toFixed(2)} km`;
+          }
+        });
+      } else {
+        console.warn('User location is not available.');
+      }
+    }
+
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
+    function clearSearch() {
+      const searchField = document.querySelector('[name="search"]');
+      if (searchField) {
+        searchField.value = '';
       }
 
-      function filterRestaurantsByLocation(rangeValue) {
-        const userLatitude = window.userLatitude;
-        const userLongitude = window.userLongitude;
-
-        if (userLatitude && userLongitude) {
-          document.querySelectorAll('.restaurant-card').forEach((card) => {
-            const lat = parseFloat(card.getAttribute('data-lat'));
-            const lng = parseFloat(card.getAttribute('data-lng'));
-            const distance = calculateDistance(userLatitude, userLongitude, lat, lng);
-
-            if (distance <= rangeValue) {
-              card.style.display = 'block';
-            } else {
-              card.style.display = 'none';
-            }
-
-            const distanceElement = card.querySelector('.restaurant-distance');
-            if (distanceElement) {
-              distanceElement.innerText = `${distance.toFixed(2)} km`;
-            }
-          });
-        } else {
-          console.warn('User location is not available.');
-        }
+      const crossButton = document.querySelector('.cross-btn');
+      if (crossButton) {
+        crossButton.style.display = 'none';
       }
+    }
 
-      function calculateDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371;
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLon = (lon2 - lon1) * Math.PI / 180;
-        const a =
-          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-          Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-          Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c;
+    function getUserLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            window.userLatitude = position.coords.latitude;
+            window.userLongitude = position.coords.longitude;
+            filterRestaurantsByLocation(5);
+          },
+          function (error) {
+            console.error('Error getting location:', error.message);
+          }
+        );
+      } else {
+        console.warn('Geolocation is not supported by this browser.');
       }
+    }
 
-      function clearSearch() {
-        const searchField = document.querySelector('[name="search"]');
-        if (searchField) {
-          searchField.value = '';
-        }
-
-        const crossButton = document.querySelector('.cross-btn');
-        if (crossButton) {
-          crossButton.style.display = 'none';
-        }
-      }
-
-      function getUserLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            function (position) {
-              window.userLatitude = position.coords.latitude;
-              window.userLongitude = position.coords.longitude;
-              filterRestaurantsByLocation(5);
-            },
-            function (error) {
-              console.error('Error getting location:', error.message);
-            }
-          );
-        } else {
-          console.warn('Geolocation is not supported by this browser.');
-        }
-      }
-
-      getUserLocation();
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    getUserLocation();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

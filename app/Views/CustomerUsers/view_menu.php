@@ -8,17 +8,87 @@
   <style>
     body {
       background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       font-family: 'Roboto', sans-serif;
-      padding: 20px;
+      margin: 10px;
+    }
+
+    h2 {
+      display: inline-block;
+      color: #ff0000;
+      font-weight: bold;
+      font-size: 3rem;
+      text-align: start;
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background-color: #ff5722;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease-in-out;
+      padding: 5px 0;
+    }
+
+    h2:hover {
+      color: #ff0000;
+      text-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3);
+      transform: scale(1.05);
     }
 
     .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      padding-inline-start: 5px;
+      max-width: 1400px;
+    }
+
+    .logout {
+      display: inline-block;
+      color: #000;
+      background-color: #fff;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 5px;
+      padding: 8px 16px;
+      text-decoration: none;
+      text-align: center;
+      transition: background-color 0.3s;
+      border: none;
+    }
+
+    .btn-back,
+    .cart-button {
+      display: inline-block;
+      background-color: #fff;
+      font-size: 1.2rem;
+      color: #000;
+      font-weight: bold;
+      border-radius: 5px;
+      padding: 8px 25px;
+      text-decoration: none;
+      text-align: center;
+      transition: background-color 0.3s;
+    }
+
+    .cart img {
+      max-width: 40px;
+      max-height: 40px;
+      object-fit: contain;
+    }
+
+    .menu {
       background-color: #e5e7e9;
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       width: 100%;
-      max-width: 1200px;
+      max-width: 1250px;
     }
 
     h1 {
@@ -82,42 +152,20 @@
     }
 
     .btn-add-to-cart {
-      background-color: #ff6f61;
-      color: #fff;
+      align-items: center;
+      background-color: #fff;
+      color: #000;
       font-weight: bold;
-      border-radius: 20px;
+      border-radius: 5px;
       padding: 8px 16px;
       transition: background-color 0.3s;
       border: none;
     }
 
     .btn-add-to-cart:hover {
-      background-color: #ff8f85;
+      background-color: #839192;
+      color: #000;
       cursor: pointer;
-    }
-
-    .btn-back,
-    .cart-button {
-      display: inline-block;
-      background-color: #ff6f61;
-      color: #fff;
-      font-weight: bold;
-      border-radius: 5px;
-      padding: 8px 16px;
-      text-decoration: none;
-      text-align: center;
-      transition: background-color 0.3s;
-    }
-
-    .btn-back:hover,
-    .cart-button:hover {
-      background-color: #ff8f85;
-    }
-
-    .cart img {
-      max-width: 40px;
-      max-height: 40px;
-      object-fit: contain;
     }
 
     .cart-container {
@@ -209,7 +257,70 @@
       bottom: 30px;
       font-size: 17px;
     }
+
+    .menu {
+      position: relative;
+    }
+
+    .parent {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   </style>
+</head>
+
+<body onload="showMenu('all')">
+
+  <div class="container" style="position: relative;">
+    <a href="/CustomerUsers/dashboard" class="btn">
+      <h2>Mealzo</h2>
+    </a>
+    <div>
+      <a href="/CustomerUsers/Payment" class="cart">
+        <img src="<?= base_url('/Restaurant_photo/cart.png') ?>" alt="Cart">
+      </a>
+      <a href="/CustomerUsers/dashboard" class="btn-back" >Back</a>
+      <a href="/logout" class="logout">Logout</a>
+    </div>
+  </div>
+
+  <div class="parent">
+    <div class="menu ">
+      <h1>Menu</h1>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <button class="category-btn" onclick="showMenu('all')">All items</button>
+            </li>
+            <li class="nav-item">
+              <button class="category-btn" onclick="showMenu('Beverages')">Beverages</button>
+            </li>
+            <li class="nav-item">
+              <button class="category-btn" onclick="showMenu('Starter')">Starter</button>
+            </li>
+            <li class="nav-item">
+              <button class="category-btn" onclick="showMenu('Main Course')">Main Course</button>
+            </li>
+            <li class="nav-item">
+              <button class="category-btn" onclick="showMenu('Dessert')">Dessert</button>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="row" id="menu-items"></div>
+    </div>
+  </div>
+  <div id="toast"></div>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
     const menuItems = <?php echo json_encode($menus); ?>;
 
@@ -304,50 +415,6 @@
       }, 3000);
     }
   </script>
-</head>
-
-<body onload="showMenu('all')">
-  <div class="container">
-    <a href="/CustomerUsers/Payment" class="cart">
-      <img src="<?= base_url('/Restaurant_photo/cart.png') ?>" alt="Cart">
-    </a>
-    <a href="/CustomerUsers/dashboard" class="btn-back">Go Back</a>
-
-    <h1>Menu</h1>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <button class="category-btn" onclick="showMenu('all')">All items</button>
-          </li>
-          <li class="nav-item">
-            <button class="category-btn" onclick="showMenu('Beverages')">Beverages</button>
-          </li>
-          <li class="nav-item">
-            <button class="category-btn" onclick="showMenu('Starter')">Starter</button>
-          </li>
-          <li class="nav-item">
-            <button class="category-btn" onclick="showMenu('Main Course')">Main Course</button>
-          </li>
-          <li class="nav-item">
-            <button class="category-btn" onclick="showMenu('Dessert')">Dessert</button>
-          </li>
-        </ul>
-      </div>
-    </nav>
-
-    <div class="row" id="menu-items"></div>
-  </div>
-  <div id="toast"></div>
-
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

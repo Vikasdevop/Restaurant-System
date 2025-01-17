@@ -5,133 +5,108 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Cart</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f4f7fc;
+      background-color: #f5f5f5;
+      font-family: 'Roboto', sans-serif;
+      padding: 20px;
       color: #333;
     }
 
     .container {
-      background-color: #fff;
-      padding: 20px;
+      background-color: #ffffff;
       border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      margin-top: 50px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     h1 {
-      font-size: 2rem;
-      text-align: center;
-      margin-bottom: 30px;
+      font-size: 1.8rem;
+      font-weight: 600;
       color: #333;
+      margin-bottom: 20px;
+      text-align: center;
     }
 
     .table {
-      margin-bottom: 30px;
-    }
-
-    th {
-      background-color: #f8f9fa;
-    }
-
-    td {
+      margin-bottom: 20px;
       text-align: center;
+      border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+      vertical-align: middle;
+      font-size: 1rem;
+      padding: 12px;
+      border: 1px solid #ddd;
+    }
+
+    .table th {
+      background-color: #fff;
+      color: #000;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .table td {
+      color: #555;
+    }
+
+    .table .btn {
+      font-size: 0.9rem;
+      padding: 6px 12px;
+      border-radius: 4px;
     }
 
     .btn-danger {
-      background-color: #dc3545;
-      border-color: #dc3545;
+      background-color: #e74c3c;
+      border: none;
+      color: #fff;
     }
 
     .btn-danger:hover {
-      background-color: #c82333;
-      border-color: #bd2130;
-    }
-
-    #total-bill {
-      font-size: 1.5rem;
-      font-weight: bold;
-      text-align: right;
-      margin-top: 20px;
-      color: #28a745;
-    }
-
-    .empty-cart-msg {
-      text-align: center;
-      font-size: 1.2rem;
-      color: #ff6f61;
-      margin-top: 20px;
+      background-color: #c0392b;
     }
 
     .btn-success {
-      font-size: 1.2rem;
-      font-weight: bold;
-      background-color: #28a745;
-      border-color: #28a745;
-      padding: 12px 20px;
-      border-radius: 5px;
+      background-color: #27ae60;
+      border: none;
+      color: #fff;
     }
 
     .btn-success:hover {
-      background-color: #218838;
-      border-color: #1e7e34;
+      background-color: #218c52;
     }
 
-    .quantity-controls {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .quantity-btn {
-      font-size: 1.2rem;
-      padding: 5px 10px;
-      cursor: pointer;
-      background-color: #f1f1f1;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      margin: 0 5px;
-    }
-
-    .quantity-display {
-      font-size: 1.2rem;
-      width: 40px;
-      text-align: center;
-    }
-
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 1.5rem;
-      }
-
-      #total-bill {
-        font-size: 1.2rem;
-      }
+    #total-bill {
+      font-size: 1.4rem;
+      font-weight: bold;
+      text-align: right;
+      color: #333;
+      margin-top: 20px;
     }
 
     #toast {
-      visibility: hidden;
-      min-width: 250px;
-      margin-left: -125px;
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      border-radius: 2px;
-      padding: 16px;
       position: fixed;
-      z-index: 1;
-      left: 50%;
-      bottom: 30px;
-      font-size: 17px;
+      bottom: 20px;
+      right: 20px;
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 4px;
+      display: none;
+      z-index: 1050;
     }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <a href="javascript:history.back()" class="btn btn-secondary mb-4">&lt;Back</a>
     <h1>Your Cart</h1>
 
     <div class="table-responsive">
